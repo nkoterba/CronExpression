@@ -11,7 +11,7 @@
  *
  * @return DateTime Returns the nearest date
  */
--(NSDate*)getNearestWeekday: (NSUInteger)currentYear: (NSUInteger)currentMonth: (NSUInteger)targetDay;
+-(NSDate*)getNearestWeekday: (NSUInteger)currentYear :(NSUInteger)currentMonth :(NSUInteger)targetDay;
 
 @end
 
@@ -48,7 +48,7 @@
     return range.length;
 }
 
--(NSDate*)getNearestWeekday: (NSUInteger)currentYear: (NSUInteger)currentMonth: (NSUInteger)targetDay
+-(NSDate*)getNearestWeekday:(NSUInteger)currentYear :(NSUInteger)currentMonth :(NSUInteger)targetDay
 {
     /*$tday = str_pad($targetDay, 2, '0', STR_PAD_LEFT);
      $target = DateTime::createFromFormat('Y-m-d', "$currentYear-$currentMonth-$tday");
@@ -70,15 +70,15 @@
         }
      }*/
     
-    NSCalendar* calendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar] autorelease];
-    NSDateComponents* components = [[[NSDateComponents alloc]init] autorelease];
+    NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents* components = [[NSDateComponents alloc]init];
     components.day = targetDay;
     components.month = currentMonth;
     components.year = currentYear;
     
     NSDate* target = [calendar dateFromComponents: components];
     
-    NSDateComponents *weekdayComponents = [[calendar components: NSWeekdayCalendarUnit fromDate: target] autorelease];
+    NSDateComponents *weekdayComponents = [calendar components: NSWeekdayCalendarUnit fromDate: target];
     if(weekdayComponents.weekday < 6)
     {
         return target;
@@ -97,7 +97,7 @@
             components.day = adjusted;
             
             NSDate* adjustedTarget = [calendar dateFromComponents: components];
-            NSDateComponents *adjustedWeekdayComponents = [[calendar components: NSWeekdayCalendarUnit | NSMonthCalendarUnit fromDate: adjustedTarget] autorelease];
+            NSDateComponents *adjustedWeekdayComponents = [calendar components: NSWeekdayCalendarUnit | NSMonthCalendarUnit fromDate: adjustedTarget];
             
             if(adjustedWeekdayComponents.weekday < 6 && adjustedWeekdayComponents.month == currentMonth)
             {
@@ -124,7 +124,7 @@
      }
      
      // Check to see if this is the nearest weekday to a particular value
-     if (strpos($value, 'W')) {
+     if (strpos($value, 'W')) {T
         // Parse the target day
         $targetDay = substr($value, 0, strpos($value, 'W'));
         // Find out if the current day is the nearest day of the week
@@ -133,15 +133,15 @@
      
      return $this->isSatisfied($date->format('d'), $value);*/
     
-    if (value == @"?") 
+    if ([value isEqualToString:@"?"])
     {
         return YES;
     }
     
-    NSCalendar* calendar = [[[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar]autorelease];
-    NSDateComponents* components = [[calendar components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:date]autorelease];
+    NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents* components = [calendar components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:date];
     
-    if (value == @"L") 
+    if ([value isEqualToString:@"L"])
     {
         return components.day == [DayOfMonthField getLastDayOfMonth: date];
     }
@@ -152,12 +152,12 @@
         NSString* targetDay = [value substringWithRange:NSMakeRange(0, range.location)];
         NSDate* nearestWeekday = [self getNearestWeekday:components.year :components.month : [targetDay integerValue]];
         
-        NSDateComponents* nearestWeekdayComponents = [[calendar components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:nearestWeekday]autorelease];
+        NSDateComponents* nearestWeekdayComponents = [calendar components:NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit fromDate:nearestWeekday];
         
         return components.day == nearestWeekdayComponents.day;
     }
     
-    return [self isSatisfied:[NSString stringWithFormat:@"%02d", components.day] withValue:value];
+    return [self isSatisfied:components.day withValue:value];
 }
 
 -(NSDate*) increment:(NSDate*)date
@@ -167,11 +167,11 @@
      
      return $this;*/
     
-    NSCalendar* calendar = [[[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar] autorelease];
-    NSDateComponents *midnightComponents = [[calendar components: NSUIntegerMax fromDate: date] autorelease];
+    NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
+    NSDateComponents *midnightComponents = [calendar components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: date];
     midnightComponents.hour = midnightComponents.minute = midnightComponents.second = 0;
     
-    NSDateComponents* components = [[[NSDateComponents alloc] init] autorelease];
+    NSDateComponents* components = [[NSDateComponents alloc] init];
     components.day = 1;
     
     return [calendar dateByAddingComponents: components toDate: [calendar dateFromComponents: midnightComponents] options: 0];

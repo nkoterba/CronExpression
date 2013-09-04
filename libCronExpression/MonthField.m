@@ -33,22 +33,30 @@
      return $this->isSatisfied($date->format('m'), $value);*/
     
     NSDictionary* monthMap = [NSDictionary dictionaryWithObjects:
-                              [NSArray arrayWithObjects:@"JAN", @"FEB", @"MAR", @"APR", @"MAY", @"JUN", @"JUL", @"AUG", @"SEP", @"OCT", @"NOV", @"DEC", nil] 
-                                                         forKeys:[NSArray arrayWithObjects:
-                                                                    [NSNumber numberWithInteger: 1], 
-                                                                    [NSNumber numberWithInteger: 2], 
-                                                                    [NSNumber numberWithInteger: 3], 
-                                                                    [NSNumber numberWithInteger: 4], 
-                                                                    [NSNumber numberWithInteger: 5], 
-                                                                    [NSNumber numberWithInteger: 6], 
-                                                                    [NSNumber numberWithInteger: 7], 
-                                                                    [NSNumber numberWithInteger: 8],
-                                                                    [NSNumber numberWithInteger: 9],
-                                                                    [NSNumber numberWithInteger: 10],
-                                                                    [NSNumber numberWithInteger: 11],
-                                                                    [NSNumber numberWithInteger: 12],nil]];
-
-    return [self isSatisfied: [NSString stringWithFormat:@"%d", [monthMap objectForKey:value]] withValue:value];;
+                              [NSArray arrayWithObjects:
+                               [NSNumber numberWithInteger: 1],
+                               [NSNumber numberWithInteger: 2],
+                               [NSNumber numberWithInteger: 3],
+                               [NSNumber numberWithInteger: 4],
+                               [NSNumber numberWithInteger: 5],
+                               [NSNumber numberWithInteger: 6],
+                               [NSNumber numberWithInteger: 7],
+                               [NSNumber numberWithInteger: 8],
+                               [NSNumber numberWithInteger: 9],
+                               [NSNumber numberWithInteger: 10],
+                               [NSNumber numberWithInteger: 11],
+                               [NSNumber numberWithInteger: 12],nil]
+                                                         forKeys:
+                                                            [NSArray arrayWithObjects:@"JAN", @"FEB", @"MAR", @"APR", @"MAY", @"JUN", @"JUL", @"AUG", @"SEP", @"OCT", @"NOV", @"DEC", nil]
+                              
+];
+    
+    for(NSString *key in [monthMap allKeys])
+        value = [value stringByReplacingOccurrencesOfString:key withString:[[monthMap objectForKey:key] stringValue]];
+    
+    NSInteger month = [[[NSCalendar currentCalendar] components:NSMonthCalendarUnit fromDate:date] month];
+    
+    return [self isSatisfied:month withValue:value];
 }
 
 -(NSDate*) increment:(NSDate*)date
@@ -59,11 +67,11 @@
      
      return $this;*/
     
-    NSCalendar* calendar = [[[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar] autorelease];
-    NSDateComponents *midnightComponents = [[calendar components: NSUIntegerMax fromDate: date] autorelease];
+    NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
+    NSDateComponents *midnightComponents = [calendar components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: date];
     midnightComponents.hour = midnightComponents.minute = midnightComponents.second = 0;
     
-    NSDateComponents* components = [[[NSDateComponents alloc] init] autorelease];
+    NSDateComponents* components = [[NSDateComponents alloc] init];
     components.month = 1;
     
     return [calendar dateByAddingComponents: components toDate: [calendar dateFromComponents: midnightComponents] options: 0];

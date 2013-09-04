@@ -31,6 +31,7 @@
     NSArray* order;
 }
 
+extern int const COMPLETE;
 extern int const MINUTE;
 extern int const HOUR;
 extern int const DAY;
@@ -55,7 +56,7 @@ extern int const YEAR;
  *
  * @return CronExpression
  */
-+(CronExpression*) factory:(NSString*)$expression: (FieldFactory*) fieldFactory;
++(CronExpression*) factory:(NSString*)$expression :(FieldFactory*)fieldFactory;
 
 /**
  * Parse a CRON expression
@@ -72,16 +73,16 @@ extern int const YEAR;
  *
  * @param string currentTime (optional) Optionally set the current date
  *     time for testing purposes or disregarding the current second
- * @param int nth (optional) The number of matches to skip before returning
+ * @param int matchesToSkip (optional) The number of matches to skip before returning
  *     a matching next run date.  0, the default, will return the current
- *     date and time if the next run date falls on the current date and
- *     time.  Setting this value to 1 will skip the first match and go to
+ *     date and time of the first match.
+ *     Setting this value to 1 will skip the first match and go to
  *     the second match.  Setting this value to 2 will skip the first 2
  *     matches and so on.
  *
  * @return DateTime
  */
--(NSDate*)getNextRunDate: (NSDate*)currentTime: (NSInteger)nth;
+-(NSDate*)getNextRunDate: (NSDate*)currentTime :(NSInteger)matchesToSkip;
 
 /**
  * Get all or part of the CRON expression

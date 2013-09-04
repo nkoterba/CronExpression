@@ -201,8 +201,8 @@
 				B3CF242713F7F02700A4E532 /* DayOfMonthFieldTest.m */,
 				B3CF242313F7C4EB00A4E532 /* DayOfWeekFieldTest.h */,
 				B3CF242413F7C4EB00A4E532 /* DayOfWeekFieldTest.m */,
-				B310809D13FD431A00D67AC4 /* FieldTest.h */,
 				B310809E13FD431A00D67AC4 /* FieldTest.m */,
+				B310809D13FD431A00D67AC4 /* FieldTest.h */,
 				B3CF242013F7A99700A4E532 /* FieldFactoryTest.h */,
 				B3CF242113F7A99700A4E532 /* FieldFactoryTest.m */,
 				B3CF241D13F7A92C00A4E532 /* HoursFieldTest.h */,
@@ -434,9 +434,11 @@
 		B3CF23E313F7A1FF00A4E532 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/libCronExpression.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "libCronExpression/libCronExpression-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -446,9 +448,11 @@
 		B3CF23E413F7A1FF00A4E532 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				DSTROOT = /tmp/libCronExpression.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "libCronExpression/libCronExpression-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -458,12 +462,14 @@
 		B3CF23E613F7A1FF00A4E532 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "libCronExpression/libCronExpression-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "libCronExpressionTests/libCronExpressionTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
@@ -473,12 +479,14 @@
 		B3CF23E713F7A1FF00A4E532 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "libCronExpression/libCronExpression-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "libCronExpressionTests/libCronExpressionTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;

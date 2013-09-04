@@ -15,7 +15,7 @@
  *
  * @return bool
  */
--(BOOL)isSatisfied: (NSString*)dateValue withValue:(NSString*)value;
+-(BOOL)isSatisfied: (NSInteger)dateValue withValue:(NSString*)value;
 
 /**
  * Check if a value is a range
@@ -43,7 +43,7 @@
  *
  * @return bool
  */
--(BOOL)isInRange: (NSString*)dateValue withValue:(NSString*)value;
+-(BOOL)isInRange: (NSInteger)dateValue withValue:(NSString*)value;
 
 /**
  * Test if a value is within an increments of ranges
@@ -53,6 +53,6 @@
  *
  * @return bool
  */
--(BOOL)isInIncrementsOfRanges: (NSString*)dateValue withValue:(NSString*)value;
+-(BOOL)isInIncrementsOfRanges: (NSInteger)dateValue withValue:(NSString*)value;
 
 @end

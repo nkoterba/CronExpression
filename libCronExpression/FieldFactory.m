@@ -82,10 +82,5 @@
     return [fields objectAtIndex: position];
 }
 
--(void)dealloc
-{
-    [super dealloc];
-    [fields release];
-}
 
 @end
