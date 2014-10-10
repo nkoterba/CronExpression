@@ -94,22 +94,22 @@
      
      return $this->isSatisfied($fieldValue, $value);*/
     
-    if(value == @"?")
+    if([value isEqualToString:@"?"])
     {
         return YES;
     }
     
     NSInteger units = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit;
     
-    value = [value stringByReplacingOccurrencesOfString:@"SUN" withString:@"0"];
-    value = [value stringByReplacingOccurrencesOfString:@"MON" withString:@"1"];
-    value = [value stringByReplacingOccurrencesOfString:@"TUE" withString:@"2"];
-    value = [value stringByReplacingOccurrencesOfString:@"WED" withString:@"3"];
-    value = [value stringByReplacingOccurrencesOfString:@"THU" withString:@"4"];
-    value = [value stringByReplacingOccurrencesOfString:@"FRI" withString:@"5"];
-    value = [value stringByReplacingOccurrencesOfString:@"SAT" withString:@"6"];
+    value = [value stringByReplacingOccurrencesOfString:@"SUN" withString:@"1"];
+    value = [value stringByReplacingOccurrencesOfString:@"MON" withString:@"2"];
+    value = [value stringByReplacingOccurrencesOfString:@"TUE" withString:@"3"];
+    value = [value stringByReplacingOccurrencesOfString:@"WED" withString:@"4"];
+    value = [value stringByReplacingOccurrencesOfString:@"THU" withString:@"5"];
+    value = [value stringByReplacingOccurrencesOfString:@"FRI" withString:@"6"];
+    value = [value stringByReplacingOccurrencesOfString:@"SAT" withString:@"7"];
     
-    NSCalendar* calendar = [[[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar] autorelease];
+    NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
     
     NSUInteger lastDayOfMonth = [DayOfMonthField getLastDayOfMonth:date];
     
@@ -117,20 +117,20 @@
     if([value rangeOfString : @"L"].location != NSNotFound)
     {
         NSInteger weekday = [[value substringToIndex: [value rangeOfString: @"L"].location] intValue];
-        NSDateComponents *tcomponents = [[calendar components: units fromDate: date] autorelease];
+        NSDateComponents *tcomponents = [calendar components: units fromDate: date];
         tcomponents.day = lastDayOfMonth;
         NSDate* tdate = [calendar dateFromComponents:tcomponents];
     
-        NSDateComponents *wcomponents = [[calendar components: units fromDate: tdate] autorelease];
+        NSDateComponents *wcomponents = [calendar components: units fromDate: tdate];
         
         while (wcomponents.weekday != weekday) 
         {
             tcomponents.day = --lastDayOfMonth;
             tdate = [calendar dateFromComponents:tcomponents];
-            wcomponents = [[calendar components: units fromDate: tdate] autorelease];
+            wcomponents = [calendar components: units fromDate: tdate];
         }
         
-        wcomponents = [[calendar components: units fromDate: date] autorelease];
+        wcomponents = [calendar components: units fromDate: date];
         return wcomponents.day == lastDayOfMonth;
     }
     
@@ -151,7 +151,7 @@
             [NSException raise:@"Invalid Argument" format:@"There are never more than 5 of a given weekday in a month"];
         }
         
-        NSDateComponents *tcomponents = [[calendar components: units fromDate: date] autorelease];
+        NSDateComponents *tcomponents = [calendar components: units fromDate: date];
         
         // The current weekday must match the targeted weekday to proceed
         if (tcomponents.weekday != weekday) 
@@ -175,18 +175,18 @@
                 }
             }
             
-            tcomponents = [[calendar components: units fromDate: tdate] autorelease];
+            tcomponents = [calendar components: units fromDate: tdate];
             tcomponents.day = ++currentDay;
             tdate = [calendar dateFromComponents:tcomponents];
         }
         
-        tcomponents = [[calendar components: units fromDate: date] autorelease];
+        tcomponents = [calendar components: units fromDate: date];
         return tcomponents.day == currentDay;
     }
     
     // Test to see which Sunday to use -- 0 == 7 == Sunday
-    NSDateComponents *components = [[calendar components: units fromDate: date] autorelease];
-    return [self isSatisfied: [NSString stringWithFormat:@"%d", components] withValue:value];
+    NSDateComponents *components = [calendar components: units fromDate: date];
+    return [self isSatisfied:components.weekday-1 withValue:value];
 }
 
 -(NSDate*) increment:(NSDate*)date
@@ -196,14 +196,14 @@
      
      return $this;*/
     
-    NSCalendar* calendar = [[[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar] autorelease];
-    NSDateComponents *midnightComponents = [[calendar components: NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: date] autorelease];
+    NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
+    NSDateComponents *midnightComponents = [calendar components: NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit fromDate: date];
     midnightComponents.hour = midnightComponents.minute = midnightComponents.second = 0;
     
-    NSDateComponents* components = [[[NSDateComponents alloc] init] autorelease];
+    NSDateComponents* components = [[NSDateComponents alloc] init];
     components.day = 1;
     
-    return [calendar dateByAddingComponents: components toDate: [calendar dateFromComponents: midnightComponents] options: 0];
+    return [calendar dateByAddingComponents:components toDate:date options: 0];
 }
 
 -(BOOL) validate:(NSString*)value

@@ -12,7 +12,7 @@
     return self;
 }
 
--(BOOL)isSatisfied: (NSString*)dateValue withValue:(NSString*)value
+-(BOOL)isSatisfied: (NSInteger)dateValue withValue:(NSString*)value
 {
     /*if ($this->isIncrementsOfRanges($value)) {
         return $this->isInIncrementsOfRanges($dateValue, $value);
@@ -31,7 +31,7 @@
         return [self isInRange:dateValue withValue:value];
     }
     
-    return value == @"*" || dateValue == value;
+    return [value isEqualToString:@"*"] || dateValue == [value intValue];
 }
 
 -(BOOL)isRange: (NSString*)value
@@ -48,7 +48,7 @@
     return [value rangeOfString : @"/"].location != NSNotFound;
 }
 
--(BOOL)isInRange: (NSString*)dateValue withValue:(NSString*)value
+-(BOOL)isInRange: (NSInteger)dateValue withValue:(NSString*)value
 {
     /*$parts = array_map('trim', explode('-', $value, 2));
      
@@ -56,10 +56,10 @@
     
     NSArray *parts = [value componentsSeparatedByString: @"-"];
     
-    return [dateValue intValue] >= [[parts objectAtIndex:0] intValue] && [dateValue intValue] <= [[parts objectAtIndex:1] intValue];
+    return dateValue >= [[parts objectAtIndex:0] intValue] && dateValue <= [[parts objectAtIndex:1] intValue];
 }
 
--(BOOL)isInIncrementsOfRanges: (NSString*)dateValue withValue:(NSString*)value
+-(BOOL)isInIncrementsOfRanges: (NSInteger)dateValue withValue:(NSString*)value
 {
     /*$parts = array_map('trim', explode('/', $value, 2));
      if ($parts[0] != '*' && $parts[0] != 0) {
@@ -78,7 +78,7 @@
      return (int) $dateValue % (int) $parts[1] == 0;*/
     
     NSArray *parts = [value componentsSeparatedByString: @"/"];
-    if([parts objectAtIndex:0] != @"*" && [[parts objectAtIndex:0] intValue] != 0)
+    if(![[parts objectAtIndex:0] isEqualToString:@"*"] && [[parts objectAtIndex:0] intValue] != 0)
     {
         if([[parts objectAtIndex:0] rangeOfString : @"-"].location == NSNotFound)
         {
@@ -87,18 +87,18 @@
         else
         {
             NSArray *range = [[parts objectAtIndex:0] componentsSeparatedByString: @"-"];
-            if([dateValue intValue] == [[range objectAtIndex:0] intValue])
+            if(dateValue == [[range objectAtIndex:0] intValue])
             {
                 return YES;
             }
-            else if([dateValue intValue] < [[range objectAtIndex:0] intValue])
+            else if(dateValue < [[range objectAtIndex:0] intValue])
             {
                 return NO;
             }
         }
     }
     
-    return [dateValue intValue] % [[parts objectAtIndex:1] intValue] == 0;
+    return dateValue % [[parts objectAtIndex:1] intValue] == 0;
 }
 
 @end
