@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "CronExpression"
-  s.version      = “0.0.3”
+  s.version      = "0.0.3"
   s.summary      = "Cocoa/iOS library to parse and calculate the next run date of a CRON expression"
 
   s.description  = <<-DESC
